@@ -101,7 +101,8 @@ function displaySnippets(category) {
   snippetContainer.empty();
 
   snippetsData.forEach(snippet => {
-    if (snippet.category === category) {
+    if ((category === 'All' || snippet.category === category) &&
+        (searchCriteria === '' || snippet.code.toLowerCase().includes(searchCriteria.toLowerCase()))) {
       const codeElement = $(`<code class="html">${snippet.code}</code>`);
       const shareButton = $('<button class="btn btn-primary btn-sm">Share</button>');
 
@@ -116,6 +117,12 @@ function displaySnippets(category) {
     }
   });
 }
+// Function to handle search button click
+$('#searchButton').click(function() {
+  const selectedCategory = $('.category-item.active').text() || 'All';
+  displaySnippets(selectedCategory, $('#searchInput').val());
+});
+
 
 // Function to parse URL parameters
 function parseURLParams() {
