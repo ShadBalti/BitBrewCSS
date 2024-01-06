@@ -78,6 +78,22 @@ function shareOnSocialMedia(url) {
   window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`, '_blank');
 }
 
+// Function to generate category list
+function generateCategoryList() {
+  const categoryList = $('.category-list');
+  const categories = [...new Set(snippetsData.map(snippet => snippet.category))];
+
+  categories.forEach(category => {
+    categoryList.append(`<li class="list-group-item category-item">${category}</li>`);
+  });
+
+  // Add click event to each category item
+  $('.category-item').click(function() {
+    const selectedCategory = $(this).text();
+    displaySnippets(selectedCategory, $('#searchInput').val());
+  });
+}
+
 
 // Function to display snippets based on selected category
 function displaySnippets(category) {
