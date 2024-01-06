@@ -1,0 +1,65 @@
+/* Global Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header Styles */
+h1 {
+  color: #007bff;
+}
+
+/* Sidebar Styles */
+.card {
+  margin-bottom: 20px;
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+}
+
+.category-item {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.category-item:hover {
+  background-color: #e9ecef;
+}
+
+/* Snippet Styles */
+.card-title {
+  color: #007bff;
+}
+
+#snippet-container {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.snippet-code {
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin-bottom: 15px;
+  white-space: pre-wrap;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+/* Responsive Styles */
+@media (max-width: 767px) {
+  .col-md-4 {
+    order: 2;
+  }
+
+  .col-md-8 {
+    order: 1;
+  }
+    }
