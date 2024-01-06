@@ -94,6 +94,7 @@ function generateCategoryList() {
   });
 }
 
+generateCategoryList();
 
 // Function to display snippets based on selected category
 function displaySnippets(category) {
