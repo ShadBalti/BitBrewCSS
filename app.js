@@ -57,11 +57,11 @@ function generateCategoryList() {
   categories.forEach(category => {
     categoryList.append(`<li class="list-group-item category-item">${category}</li>`);
   });
-
-  // Add click event to each category item
+   
+// Add click event to each category item
   $('.category-item').click(function() {
     const selectedCategory = $(this).text();
-    displaySnippets(selectedCategory);
+    displaySnippets(selectedCategory, $('#searchInput').val());
   });
 }
 
@@ -76,22 +76,6 @@ function shareOnSocialMedia(url) {
   // Use any social media sharing library or API of your choice
   // Example: Open a new window with the Twitter sharing URL
   window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`, '_blank');
-}
-
-// Function to generate category list
-function generateCategoryList() {
-  const categoryList = $('.category-list');
-  const categories = [...new Set(snippetsData.map(snippet => snippet.category))];
-
-  categories.forEach(category => {
-    categoryList.append(`<li class="list-group-item category-item">${category}</li>`);
-  });
-
-  // Add click event to each category item
-  $('.category-item').click(function() {
-    const selectedCategory = $(this).text();
-    displaySnippets(selectedCategory, $('#searchInput').val());
-  });
 }
 
 generateCategoryList();
