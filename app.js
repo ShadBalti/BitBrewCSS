@@ -88,8 +88,14 @@ function displaySnippets(category) {
   snippetsData.forEach(snippet => {
     if (category === 'All' || snippet.category === category) {
       const codeElement = $(`<code class="html">${snippet.code}</code>`);
+      const shareButton = $('<button class="btn btn-primary btn-sm">Share</button>');
+
+      shareButton.click(function() {
+        const shareableURL = generateShareableURL(snippet.category, snippet.code);
+        shareOnSocialMedia(shareableURL);
+      });
       snippetContainer.append(`<pre class="snippet-code"></pre>`);
-      snippetContainer.find('.snippet-code:last').append(codeElement);
+      snippetContainer.find('.snippet-code:last').append(codeElement).append(shareButton);
       hljs.highlightBlock(codeElement[0]);
     }
   });
