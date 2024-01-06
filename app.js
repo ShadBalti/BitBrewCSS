@@ -49,19 +49,19 @@ const snippetsData = [
   { category: 'Backgrounds', code: '.gradient-bg { background: linear-gradient(to right, #ff8c00, #ff2d55); }' },
 ];
 
-// Function to generate category list
+// Simplified function to generate category list
 function generateCategoryList() {
   const categoryList = $('.category-list');
-  const categories = [...new Set(snippetsData.map(snippet => snippet.category))];
+  const categories = ['All', ...new Set(snippetsData.map(snippet => snippet.category))];
 
   categories.forEach(category => {
     categoryList.append(`<li class="list-group-item category-item">${category}</li>`);
   });
-   
-// Add click event to each category item
+
+  // Add click event to each category item
   $('.category-item').click(function() {
     const selectedCategory = $(this).text();
-    displaySnippets(selectedCategory, $('#searchInput').val());
+    displaySnippets(selectedCategory);
   });
 }
 
@@ -85,8 +85,7 @@ function displaySnippets(category) {
   snippetContainer.empty();
 
   snippetsData.forEach(snippet => {
-    if ((category === 'All' || snippet.category === category) &&
-        (searchCriteria === '' || snippet.code.toLowerCase().includes(searchCriteria.toLowerCase()))) {
+    if (category === 'All' || snippet.category === category) {
       const codeElement = $(`<code class="html">${snippet.code}</code>`);
       const shareButton = $('<button class="btn btn-primary btn-sm">Share</button>');
 
@@ -125,6 +124,6 @@ $(document).ready(function() {
   } else {
     // Default behavior (display the first category)
     generateCategoryList();
-    displaySnippets('All', '');
+    displaySnippets('All');
   }
 });
