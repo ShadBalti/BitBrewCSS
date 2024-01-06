@@ -121,11 +121,3 @@ $(document).ready(function() {
     displaySnippets(snippetsData[0].category);
   }
 });
-
-
-// Initial setup
-$(document).ready(function() {
-  generateCategoryList();
-  displaySnippets(snippetsData[0].category); // Display the first category by default
-});
- 
