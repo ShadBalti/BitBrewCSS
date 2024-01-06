@@ -78,7 +78,6 @@ function shareOnSocialMedia(url) {
   window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`, '_blank');
 }
 
-generateCategoryList();
 
 // Function to display snippets based on selected category
 function displaySnippets(category) {
