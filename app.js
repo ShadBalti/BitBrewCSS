@@ -72,7 +72,10 @@ function displaySnippets(category) {
 
   snippetsData.forEach(snippet => {
     if (snippet.category === category) {
-      snippetContainer.append(`<pre class="snippet-code">${snippet.code}</pre>`);
+      const codeElement = $(`<code class="html">${snippet.code}</code>`);
+      snippetContainer.append(`<pre class="snippet-code"></pre>`);
+      snippetContainer.find('.snippet-code:last').append(codeElement);
+      hljs.highlightBlock(codeElement[0]);
     }
   });
 }
