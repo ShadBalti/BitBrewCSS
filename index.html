@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Snippet Library</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">CSS Snippet Library</h1>
+    <div class="row">
+      <div class="col-md-4">
+        <!-- Sidebar for categories -->
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Categories</h5>
+            <ul class="list-group category-list">
+              <!-- Categories will be dynamically generated here -->
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <!-- Snippet display area -->
+        <div class="card">
+          <div class="card-body"> 
+            <h5 class="card-title">Snippets</h5>
+            <div id="snippet-container"> 
+              <!-- Snippets will be dynamically generated here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS, jQuery, and Popper.js -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Custom JS -->
+  <script src="app.js"></script>
+</body>
+</html>
+              
