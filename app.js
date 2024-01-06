@@ -65,6 +65,20 @@ function generateCategoryList() {
   });
 }
 
+// Function to generate a unique URL for sharing
+function generateShareableURL(category, code) {
+  const encodedCode = encodeURIComponent(code);
+  return `${window.location.href}?category=${encodeURIComponent(category)}&code=${encodedCode}`;
+}
+
+// Function to open a share dialog for social media
+function shareOnSocialMedia(url) {
+  // Use any social media sharing library or API of your choice
+  // Example: Open a new window with the Twitter sharing URL
+  window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`, '_blank');
+}
+
+
 // Function to display snippets based on selected category
 function displaySnippets(category) {
   const snippetContainer = $('#snippet-container');
@@ -73,12 +87,41 @@ function displaySnippets(category) {
   snippetsData.forEach(snippet => {
     if (snippet.category === category) {
       const codeElement = $(`<code class="html">${snippet.code}</code>`);
+      const shareButton = $('<button class="btn btn-primary btn-sm">Share</button>');
+
+      shareButton.click(function() {
+        const shareableURL = generateShareableURL(snippet.category, snippet.code);
+        shareOnSocialMedia(shareableURL);
+      });
+
       snippetContainer.append(`<pre class="snippet-code"></pre>`);
-      snippetContainer.find('.snippet-code:last').append(codeElement);
+      snippetContainer.find('.snippet-code:last').append(codeElement).append(shareButton);
       hljs.highlightBlock(codeElement[0]);
     }
   });
 }
+
+// Function to parse URL parameters
+function parseURLParams() {
+  const params = new URLSearchParams(window.location.search);
+  const category = params.get('category');
+  const code = params.get('code');
+  return { category, code };
+}
+
+// Initial setup
+$(document).ready(function() {
+  const { category, code } = parseURLParams();
+  if (category && code) {
+    // Display the snippet based on URL parameters
+    displaySnippets(category);
+  } else {
+    // Default behavior (display the first category)
+    generateCategoryList();
+    displaySnippets(snippetsData[0].category);
+  }
+});
+
 
 // Initial setup
 $(document).ready(function() {
