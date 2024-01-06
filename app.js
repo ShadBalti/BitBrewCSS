@@ -96,17 +96,12 @@ function displaySnippets(category) {
       });
       snippetContainer.append(`<pre class="snippet-code"></pre>`);
       snippetContainer.find('.snippet-code:last').append(codeElement).append(shareButton);
-      hljs.highlightBlock(codeElement[0]);
+      
     }
   });
 }
 
 
-// Function to handle search button click
-$('#searchButton').click(function() {
-  const selectedCategory = $('.category-item.active').text() || 'All';
-  displaySnippets(selectedCategory, $('#searchInput').val());
-});
 
 
 // Function to parse URL parameters
