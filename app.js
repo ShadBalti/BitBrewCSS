@@ -125,6 +125,6 @@ $(document).ready(function() {
   } else {
     // Default behavior (display the first category)
     generateCategoryList();
-    displaySnippets(snippetsData[0].category);
+    displaySnippets('All', '');
   }
 });
