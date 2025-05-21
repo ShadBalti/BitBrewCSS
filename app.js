@@ -1,110 +1,87 @@
-// Sample snippet data
-const snippetsData = [
-  // Layout
-  { category: 'Layout', code: '.container { max-width: 1200px; margin: 0 auto; }' },
-  { category: 'Layout', code: 'body { font-family: "Arial", sans-serif; }' },
+// Global constant for Twitter sharing URL
+const TWITTER_SHARE_URL = 'https://twitter.com/intent/tweet?url=';
+// Holds the snippet data fetched from snippets.json
+let snippetsData = [];
 
-  // Typography
-  { category: 'Typography', code: 'h1 { color: #333; }' },
-  { category: 'Typography', code: 'p { line-height: 1.5; }' },
-
-  // Colors
-  { category: 'Colors', code: '.primary-text { color: #007bff; }' },
-  { category: 'Colors', code: '.background-gray { background-color: #f1f1f1; }' },
-
-  // Flexbox
-  { category: 'Flexbox', code: '.flex-container { display: flex; justify-content: space-between; }' },
-  { category: 'Flexbox', code: '.flex-item { flex: 1; }' },
-
-  // Animation
-  { category: 'Animation', code: '.fade-in { animation: fadeIn 1s ease-in; }' },
-  { category: 'Animation', code: '.slide-in { animation: slideIn 0.5s ease-out; }' },
-
-  // Responsive Design
-  { category: 'Responsive Design', code: '@media (max-width: 767px) { .responsive-element { width: 100%; } }' },
-  { category: 'Responsive Design', code: '@media (min-width: 768px) and (max-width: 991px) { .responsive-element { width: 50%; } }' },
-
-  // Box Model
-  { category: 'Box Model', code: '.box { width: 100px; height: 100px; padding: 10px; margin: 10px; border: 1px solid #333; }' },
-  { category: 'Box Model', code: '.box:hover { background-color: #f8f9fa; }' },
-
-  // Forms
-  { category: 'Forms', code: 'input[type="text"] { width: 200px; padding: 5px; }' },
-  { category: 'Forms', code: 'button { background-color: #28a745; color: #fff; padding: 8px 12px; border: none; }' },
-
-  // Transitions
-  { category: 'Transitions', code: '.transition-element { transition: transform 0.3s ease-in-out; }' },
-  { category: 'Transitions', code: '.transition-element:hover { transform: scale(1.2); }' },
-
-  // Shadows
-  { category: 'Shadows', code: '.box-shadow { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }' },
-  { category: 'Shadows', code: '.inner-shadow { box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1); }' },
-
-  // Grid
-  { category: 'Grid', code: '.grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }' },
-  { category: 'Grid', code: '.grid-item { background-color: #f1f1f1; padding: 10px; }' },
-
-  // Backgrounds
-  { category: 'Backgrounds', code: '.background-image { background-image: url("bg.jpg"); background-size: cover; }' },
-  { category: 'Backgrounds', code: '.gradient-bg { background: linear-gradient(to right, #ff8c00, #ff2d55); }' },
-];
-
-// Simplified function to generate category list
+/**
+ * Generates the category list in the UI.
+ * It dynamically creates list items for each unique category from `snippetsData`.
+ * Also handles click events on category items to display relevant snippets.
+ */
 function generateCategoryList() {
   const categoryList = $('.category-list');
+  categoryList.empty(); // Clear existing categories before repopulating
+  // Create a unique list of categories, including 'All'
   const categories = ['All', ...new Set(snippetsData.map(snippet => snippet.category))];
 
   categories.forEach(category => {
+    // Append each category as a list item
     categoryList.append(`<li class="list-group-item category-item">${category}</li>`);
   });
 
   // Add click event to each category item
+  // When a category is clicked, display snippets for that category
   $('.category-item').click(function() {
     const selectedCategory = $(this).text();
     displaySnippets(selectedCategory);
   });
 }
 
-// Function to generate a unique URL for sharing
+/**
+ * Generates a unique URL for sharing a specific code snippet.
+ * @param {string} category - The category of the snippet.
+ * @param {string} code - The code snippet.
+ * @returns {string} The generated shareable URL.
+ */
 function generateShareableURL(category, code) {
   const encodedCode = encodeURIComponent(code);
-  return `${window.location.href}?category=${encodeURIComponent(category)}&code=${encodedCode}`;
+  const encodedCategory = encodeURIComponent(category);
+  return `${window.location.origin}${window.location.pathname}?category=${encodedCategory}&code=${encodedCode}`;
 }
 
-// Function to open a share dialog for social media
+/**
+ * Opens a share dialog for social media (Twitter).
+ * @param {string} url - The URL to be shared.
+ */
 function shareOnSocialMedia(url) {
-  // Use any social media sharing library or API of your choice
   // Example: Open a new window with the Twitter sharing URL
-  window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`, '_blank');
+  window.open(`${TWITTER_SHARE_URL}${encodeURIComponent(url)}`, '_blank');
 }
 
-
-// Function to display snippets based on selected category
-// Simplified function to display snippets based on selected category
+/**
+ * Displays code snippets in the UI based on the selected category.
+ * @param {string} category - The category of snippets to display. If 'All', all snippets are displayed.
+ */
 function displaySnippets(category) {
   const snippetContainer = $('#snippet-container');
-  snippetContainer.empty();
+  snippetContainer.empty(); // Clear existing snippets
 
   snippetsData.forEach(snippet => {
+    // Check if the snippet matches the selected category or if 'All' is selected
     if (category === 'All' || snippet.category === category) {
       const codeElement = $(`<code class="html">${snippet.code}</code>`);
       const shareButton = $('<button class="btn btn-primary btn-sm">Share</button>');
 
+      // Add click event to the share button
       shareButton.click(function() {
         const shareableURL = generateShareableURL(snippet.category, snippet.code);
         shareOnSocialMedia(shareableURL);
       });
-      snippetContainer.append(`<pre class="snippet-code"></pre>`);
-      snippetContainer.find('.snippet-code:last').append(codeElement).append(shareButton);
-      
+
+      // Create a new <pre> element for the snippet
+      const preElement = $('<pre class="snippet-code"></pre>');
+      // Append the code and share button to the <pre> element
+      preElement.append(codeElement).append(shareButton);
+      // Append the <pre> element to the snippet container
+      snippetContainer.append(preElement);
     }
   });
 }
 
-
-
-
-// Function to parse URL parameters
+/**
+ * Parses URL parameters to retrieve category and code.
+ * @returns {{category: string|null, code: string|null}} An object containing the category and code from URL parameters, or null if not present.
+ */
 function parseURLParams() {
   const params = new URLSearchParams(window.location.search);
   const category = params.get('category');
@@ -112,15 +89,40 @@ function parseURLParams() {
   return { category, code };
 }
 
-// Initial setup
+/**
+ * Initializes the application.
+ * Fetches snippet data, parses URL parameters, and displays snippets accordingly.
+ * Handles default behavior if no URL parameters are present.
+ */
 $(document).ready(function() {
-  const { category, code } = parseURLParams();
-  if (category && code) {
-    // Display the snippet based on URL parameters
-    displaySnippets(category);
-  } else {
-    // Default behavior (display the first category)
-    generateCategoryList();
-    displaySnippets('All');
-  }
+  fetch('./snippets.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      snippetsData = data;
+      const { category, code } = parseURLParams();
+
+      // Always generate the category list
+      generateCategoryList(); 
+
+      if (category && code) {
+        // Display snippets for the category specified in URL
+        // Note: This will display all snippets of that category.
+        // If a specific snippet is to be highlighted or exclusively shown,
+        // `displaySnippets` would need modification or a new function.
+        displaySnippets(category);
+      } else {
+        // Default behavior: display all snippets
+        displaySnippets('All');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching or processing snippets:', error);
+      // Display a user-friendly error message in the snippet container
+      $('#snippet-container').html('<p class="text-danger">Could not load snippets. Please check the console for more details and try again later.</p>');
+    });
 });
